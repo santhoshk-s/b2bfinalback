@@ -4,5 +4,6 @@ const categoryController = require('../controller/categorycontroller'); // Adjus
 
 // Route to create a category
 router.post('/category', categoryController.createCategory);
+router.get('/image/:filename', categoryController.getImage);
 router.get('/categories', categoryController.getCategories);
 module.exports = router;
