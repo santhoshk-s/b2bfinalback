@@ -1,12 +1,24 @@
 const messageModel = require("../Models/messageModel");
 module.exports.addMessage = async (req, res, next) => {
   try {
-    const { from, to, message } = req.body;
+    const { from, to, message, finalamount, role } = req.body;
+    console.log("from", from);
+    console.log("to", to);
+    console.log("message", message);
+    console.log("finalamunt", finalamount);
+    let messageContent = message;
+
+    // If the role is 'admin' and finalamount is provided
+    if (role==="admin" && finalamount) {
+      messageContent = `Final Amount: ${finalamount}`;
+    }
+
     const data = await messageModel.create({
-      message: { text: message },
+      message: { text: messageContent },
       users: [from, to],
       sender: from,
     });
+
     if (data) return res.json({ msg: "Message added successfully" });
     return res.json({ msg: "Failed to add message in database" });
   } catch (error) {
