@@ -1,6 +1,6 @@
 const multer = require('multer');
 const mongoose = require('mongoose');
-const Product = require('../models/productModel');
+const Product = require('../Models/productModel');
 // const Category = require('../models/category');
 
 // Configure multer to store the image in memory
