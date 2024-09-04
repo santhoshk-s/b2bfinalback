@@ -3,8 +3,11 @@ const connectDB = require('./src/configDB/db');
 const authRoutes = require('./src/Routes/authRoutes');
 const adminRoutes = require('./src/Routes/adminRoutes');
 const categoryRoutes = require("./src/Routes/categoryRoutes");
-const Product=require('./src/Routes/productRoutes')
+const Product=require('./src/Routes/productRoutes');
+const messageRoute = require("./src/Routes/messagesRoute");
 const path = require('path');
+const socket = require("socket.io");
+const User=require('./src/Models/userModel')
 require('dotenv').config();
 
 const app = express();
@@ -29,6 +32,48 @@ app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', Product);
+app.use("/api/messages", messageRoute);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const server = app.listen(5000, () => {
+  console.log(`Server Started on ${5000}`);
+});
+
+// chat
+const io = socket(server, {
+  cors: {
+    origin:'http://localhost:5173' ,
+    credentials: true,
+  },
+});
+
+global.onlineUsers = new Map();
+let onlineUserIds = {};
+
+io.on("connection", (socket) => {
+  global.chatSocket = socket;
+  socket.on("add-user", (userId) => {
+    onlineUsers.set(userId, socket.id);
+    onlineUserIds[userId]=true;
+    io.emit("online-users", onlineUserIds);
+  });
+
+  socket.on("send-msg", async (data) => {
+    const userData = await User.findById(data.from);
+    const date = new Date();
+    userData.lastMessage = date;
+    await userData.save();
+    const allUserdata = await User.find({}).sort({ lastMessage: -1 });
+    // console.log(allUserdata)
+    const sendUserSocket = onlineUsers.get(data.to);
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit("msg-recieve", data.message, allUserdata);
+    }
+  });
+
+  socket.on("logout", (userId) => {
+    onlineUserIds[userId]=false;
+
+    io.emit("online-users", onlineUserIds);
+  })
+});
