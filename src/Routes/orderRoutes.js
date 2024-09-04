@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { createOrder } = require('../controller/createOrders');
+const { createOrder,getOrders } = require('../controller/createOrders');
 const { protect } = require('../middleware/authMiddleware');
 // Route to handle order creation
-router.post('/',protect, createOrder);
+router.get('/', getOrders);
+router.post('/create',protect, createOrder);
 
 module.exports = router;

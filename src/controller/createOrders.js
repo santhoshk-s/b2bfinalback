@@ -1,12 +1,9 @@
 const Order = require('../Models/order');
 
 const createOrder = async (req, res) => {
-  // console.log('Request user:', req.user);
-
   const {
     shippingAddress,
     paymentMethod,
-    // Add other necessary fields here
   } = req.body;
 
   try {
@@ -31,5 +28,13 @@ const createOrder = async (req, res) => {
   }
 };
 
+const getOrders = async (req, res) => {
+  try {
+    const orders = await Order.find(); 
+    res.status(200).json(orders); 
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch orders', error: error.message });
+  }
+};
 
-module.exports = { createOrder };
+module.exports = { createOrder,getOrders };
