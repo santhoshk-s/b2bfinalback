@@ -4,8 +4,9 @@ const createOrder = async (req, res) => {
   const {
     shippingAddress,
     paymentMethod,
+    orderItems,
   } = req.body;
-
+// console.log("orderitems",orderItems)
   try {
     if (!req.user || !req.user._id) {
       throw new Error('User not authenticated');
@@ -16,6 +17,7 @@ const createOrder = async (req, res) => {
       user: req.user._id,
       shippingAddress,
       paymentMethod,
+      orderItems,
       // Add other necessary fields here
     });
 
