@@ -16,8 +16,8 @@ connectDB();
 
 app.use(express.json()); // To parse JSON bodies
 
-// const corsOrigin = process.env.CORS_ORIGIN ;
-const corsOrigin =  'http://localhost:5173'; // Fallback to localhost in development
+const corsOrigin = process.env.CORS_ORIGIN ;
+// const corsOrigin =  'http://localhost:5173'; // Fallback to localhost in development
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', corsOrigin);
@@ -42,7 +42,7 @@ const server = app.listen(5000, () => {
 // chat
 const io = socket(server, {
   cors: {
-    origin:'http://localhost:5173' ,
+    origin:'https://student-b2mart.netlify.app' ,
     credentials: true,
   },
 });
