@@ -23,7 +23,7 @@ exports.addProduct = async (req, res) => {
         return res.status(400).json({ error: err.message });
       }
       
-      const { name, price, quantity, description, brand, category } = req.body;
+      const { name, price, quantity, description, brand, category,categories } = req.body;
 
       const uploadStream = bucket.openUploadStream(req.file.originalname);
       uploadStream.end(req.file.buffer);
@@ -39,11 +39,12 @@ exports.addProduct = async (req, res) => {
           description,
           brand,
           category,
+          categories,
           imageId: uploadStream.id,
         });
 
         const savedProduct = await newProduct.save();
-        console.log('Saved Product:', savedProduct);
+        // console.log('Saved Product:', savedProduct);
 
         res.status(201).json({
           message: 'Product added successfully',
