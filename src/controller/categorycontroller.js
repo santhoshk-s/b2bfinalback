@@ -41,7 +41,7 @@ exports.createCategory = async (req, res) => {
     // Handle the upload completion
     uploadStream.on('finish', async () => {
       try {
-        console.log('File uploaded successfully.');
+        // console.log('File uploaded successfully.');
 
         const newCategory = new Category({
           image: `uploads/${req.file.originalname}`,
@@ -83,7 +83,7 @@ exports.getCategories = async (req, res) => {
 };
 exports.getImage = (req, res) => {
   const { filename } = req.params;
-  console.log('Fetching image:', filename);
+  // console.log('Fetching image:', filename);
   
   const downloadStream = bucket.openDownloadStreamByName(filename);
 

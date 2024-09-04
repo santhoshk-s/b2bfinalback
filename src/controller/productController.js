@@ -29,7 +29,7 @@ exports.addProduct = async (req, res) => {
       uploadStream.end(req.file.buffer);
 
       uploadStream.on('finish', async () => {
-        console.log('File uploaded successfully.');
+        // console.log('File uploaded successfully.');
 
         const newProduct = new Product({
           image: `uploads/${req.file.originalname}`,
@@ -85,7 +85,7 @@ exports.getProductById = async (req, res) => {
 exports.getProductsByCategory = async (req, res) => {
   try {
     const { categoryId } = req.params;
-    console.log(categoryId)
+    // console.log(categoryId)
     
     // Validate categoryId
     if (!categoryId) {
@@ -102,7 +102,7 @@ exports.getProductsByCategory = async (req, res) => {
 // Get an image by filename
 exports.getImage = (req, res) => {
   const { filename } = req.params;
-  console.log('Fetching image:', filename);
+  // console.log('Fetching image:', filename);
   
   const downloadStream = bucket.openDownloadStreamByName(filename);
 

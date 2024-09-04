@@ -153,7 +153,7 @@ exports.uploadProfileImage = async (req, res) => {
 module.exports.setAvatar = async (req, res, next) => {
   try {
     const userId = req.params.id;
-    console.log(userId)
+    // console.log(userId)
     const avatarImage = req.body.image;
     const userData = await User.findByIdAndUpdate(userId, {
       isAvatarImageSet: true,
