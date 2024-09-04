@@ -8,6 +8,7 @@ const productSchema = new mongoose.Schema({
   description: String,
   brand: String,
   category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, // Reference to Category
+  categories:String,
   image: String,
   imageId: mongoose.Schema.Types.ObjectId,
 });
