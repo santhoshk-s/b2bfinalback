@@ -8,6 +8,27 @@ const userSchema = new mongoose.Schema({
   contactNo:{type:String,required:true},
   profile:{type:String},
   role: { type: String, enum: ['admin', 'superadmin', 'user'], default: 'user' },
+  isAdmin: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
+  seller:{
+    type:Boolean,
+    required:false,
+    default:false,
+  },
+  isAvatarImageSet: {
+    type: Boolean,
+    default: false,
+  },
+  avatarImage: {
+    type: String,
+    default: "",
+  },
+  lastMessage: {
+    type: Date
+  }
 });
 
 userSchema.pre('save', async function (next) {
