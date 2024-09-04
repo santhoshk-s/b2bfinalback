@@ -8,6 +8,7 @@ const messageRoute = require("./src/Routes/messagesRoute");
 const path = require('path');
 const socket = require("socket.io");
 const User=require('./src/Models/userModel')
+const orderRoutes=require("./src/Routes/createorderRouts")
 require('dotenv').config();
 
 const app = express();
@@ -16,8 +17,8 @@ connectDB();
 
 app.use(express.json()); // To parse JSON bodies
 
-const corsOrigin = process.env.CORS_ORIGIN ;
-// const corsOrigin =  'http://localhost:5173'; // Fallback to localhost in development
+// const corsOrigin = process.env.CORS_ORIGIN ;
+const corsOrigin =  'http://localhost:5173'; // Fallback to localhost in development
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', corsOrigin);
@@ -33,6 +34,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', Product);
 app.use("/api/messages", messageRoute);
+app.use("/api/orders",orderRoutes)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const PORT = process.env.PORT || 5000;
 const server = app.listen(5000, () => {
@@ -42,7 +44,7 @@ const server = app.listen(5000, () => {
 // chat
 const io = socket(server, {
   cors: {
-    origin:'https://student-b2mart.netlify.app' ,
+    origin:'http://localhost:5173' ,
     credentials: true,
   },
 });
