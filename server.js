@@ -17,7 +17,7 @@ connectDB();
 
 app.use(express.json()); // To parse JSON bodies
 
-const corsOrigin = process.env.CORS_ORIGIN ;
+const corsOrigin = "https://student-b2mart.netlify.app";
 // const corsOrigin =  'http://localhost:5173'; // Fallback to localhost in development
 
 app.use((req, res, next) => {
